@@ -18,11 +18,25 @@ class ItemListState extends State<ItemList> {
         actions: <Widget>[
           IconButton(
             icon: Icon(
+              Icons.sort,
+              color: Colors.white,
+            ),
+            onPressed: () => sortPressed(),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.filter,
+              color: Colors.white,
+            ),
+            onPressed: () => filterPressed(),
+          ),
+          IconButton(
+            icon: Icon(
               Icons.add,
               color: Colors.white,
             ),
             onPressed: () => presentAddSheet(),
-          )
+          ),
         ],
       ),
       body: Container(
@@ -40,6 +54,10 @@ class ItemListState extends State<ItemList> {
           fullscreenDialog: true,
         ));
   }
+
+  void filterPressed() {}
+
+  void sortPressed() {}
 
 /*
   Widget _itemList() {
