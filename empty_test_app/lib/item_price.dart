@@ -2,7 +2,9 @@ class ItemPrice {
   final String itemName;
   final int itemPrice;
   final String itemId;
-  ItemPrice(this.itemId, this.itemName, this.itemPrice);
+  final String itemCategory;
+
+  ItemPrice(this.itemId, this.itemName, this.itemPrice, this.itemCategory);
 
   Map<String, dynamic> convertItemPrice() {
     return {"name": itemName, "price": itemPrice};

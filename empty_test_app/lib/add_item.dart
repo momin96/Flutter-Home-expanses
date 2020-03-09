@@ -30,10 +30,32 @@ class AddItem extends StatefulWidget {
 class AddItemState extends State<AddItem> {
   FirestoreProvider _provider = new FirestoreProvider();
 
+  var _categories = [
+    "Home",
+    "Kitchen",
+    "Bike",
+    "Food",
+    "Train/Bus",
+    "Cab/Auto",
+    "Vegitable",
+    "Fruits"
+  ];
+
+  String _selectedCategory;
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Item"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: () => add(),
+          )
+        ],
       ),
       body: Container(
         padding: EdgeInsets.only(left: 20, top: 30, right: 20),
@@ -50,11 +72,21 @@ class AddItemState extends State<AddItem> {
                 hintText: "Enter items price",
               ),
             ),
-            RaisedButton(
-              onPressed: () => add(),
-              child: Text("Add Item"),
-              textTheme: ButtonTextTheme.accent,
-            )
+            DropdownButton(
+              hint: Text("Select Item Category"),
+              value: _selectedCategory,
+              items: _categories.map((category) {
+                return DropdownMenuItem(
+                  child: Text(category),
+                  value: category,
+                );
+              }).toList(),
+              onChanged: (newValue) {
+                setState(() {
+                  _selectedCategory = newValue;
+                });
+              },
+            ),
           ],
         ),
       ),
@@ -64,10 +96,15 @@ class AddItemState extends State<AddItem> {
   void add() {
     String name = widget.itemNameController.text;
     int price = int.parse(widget.itemPriceController.text);
-    var itemPrice = ItemPrice(widget.documentId, name, price);
+    var itemPrice =
+        ItemPrice(widget.documentId, name, price, _selectedCategory);
     _provider.addItemInDB(itemPrice);
     widget.itemNameController.text = "";
     widget.itemPriceController.text = "";
+
+    setState(() {
+      _selectedCategory = null;
+    });
     Navigator.pop(context);
   }
 }
